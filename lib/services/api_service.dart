@@ -6,7 +6,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiService {
   static const String baseUrl = AppConstants.baseUrl;
 
-//1.Login Service
+  // 0. Send OTP Service
+  static Future<Map<String, dynamic>> sendOtp(String mobile) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/send-otp'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'mobile': mobile,
+        }),
+      );
+
+      print('Send OTP Status: ${response.statusCode}');
+      print('Send OTP Body: ${response.body}');
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && data['success'] == true) {
+        return {
+          'success': true, 
+          'message': data['message'] ?? 'OTP sent successfully',
+          'email': data['email']
+        };
+      } else {
+        return {'success': false, 'error': data['error'] ?? 'Failed to send OTP'};
+      }
+    } catch (e) {
+      print("ApiService SendOtp Error: $e");
+      return {'success': false, 'error': 'App Error: $e'};
+    }
+  }
+
+  // 1. Login Service
   static Future<Map<String, dynamic>> login(String username, String password) async {
     try {
       final response = await http.post(
