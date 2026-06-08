@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/login_screen.dart';
+import 'screens/dashboard_screen.dart';
 import 'utils/constants.dart';
 import 'utils/translations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await TranslationManager.loadSavedLanguage();
-  runApp(const ColdStorageApp());
+  final prefs = await SharedPreferences.getInstance();
+  final partyId = prefs.getString('party_id');
+  runApp(ColdStorageApp(isLoggedIn: partyId != null));
 } 
 
 
 class ColdStorageApp extends StatelessWidget {
-  const ColdStorageApp({super.key});
+  final bool isLoggedIn;
+  const ColdStorageApp({super.key, required this.isLoggedIn});
   
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class ColdStorageApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Roboto',
       ),
-      home: const SplashScreen(),
+      home: isLoggedIn ? const DashboardScreen() : const LoginScreen(),
     );
   }
 }

@@ -142,8 +142,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.eco, size: 80, color: Colors.white),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
+                    Image.asset(
+                      'assets/logo_white.png',
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 15),
                     const Text(
                       "MY WAREHOUSE",
                       style: TextStyle(
@@ -300,14 +306,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 letterSpacing: 1.2,
                               ),
                             ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 25),
-                  const Center(
-                    child: Text(
-                      "Difficulty logging in? Contact Manager",
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                   ),
                 ],
